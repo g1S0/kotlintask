@@ -6,6 +6,9 @@ import org.example.dto.News
 import org.example.serivce.FileSaveService
 import java.io.File
 import java.io.IOException
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import kotlin.collections.forEach
 
 class FileSaveServiceImpl : FileSaveService {
@@ -31,6 +34,10 @@ class FileSaveServiceImpl : FileSaveService {
                 writer.newLine()
 
                 news.forEach { newsItem ->
+                    val formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy, HH:mm")
+                        .withZone(ZoneId.systemDefault())
+                    val date = formatter.format(Instant.ofEpochSecond(newsItem.publicationDate))
+
                     writer.write(
                         "${newsItem.id}," +
                                 "\"${newsItem.title}\"," +
@@ -39,7 +46,7 @@ class FileSaveServiceImpl : FileSaveService {
                                 "\"${newsItem.siteUrl}\"," +
                                 "${newsItem.favoritesCount}," +
                                 "${newsItem.commentsCount}," +
-                                "${newsItem.publicationDate}," +
+                                "\"$date\"," +
                                 "%.2f".format(newsItem.rating)
                     )
                     writer.newLine()
