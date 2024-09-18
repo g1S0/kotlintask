@@ -11,18 +11,18 @@ import kotlin.collections.forEach
 class FileSaveServiceImpl : FileSaveService {
     private val logger: Logger = LogManager.getLogger(NewsServiceImpl::class.java)
 
-    override fun saveNews(path: String, news: Collection<News>) {
-        val file = File(path)
+    override fun saveNews(file: File, news: Collection<News>) {
         val directory = file.parentFile
+        val path = file.path
 
         if (!directory.exists()) {
             logger.info("Directory $directory does not exist.")
-            return
+            throw IOException("Failed to create directory: $directory")
         }
 
         if (file.exists()) {
             logger.error("File already exists at the specified path: $path")
-            return
+            throw FileAlreadyExistsException(file, reason = "File already exists")
         }
 
         try {
@@ -48,7 +48,7 @@ class FileSaveServiceImpl : FileSaveService {
             logger.info("News saved successfully to $path")
         } catch (e: IOException) {
             logger.error("An error occurred while saving news: ${e.message}")
-            return
+            throw e
         }
     }
 }
