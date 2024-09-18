@@ -17,7 +17,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 
-class NewsServiceImpl : NewsService {
+open class NewsServiceImpl : NewsService {
     private val logger: Logger = LogManager.getLogger(NewsServiceImpl::class.java)
 
     companion object {
@@ -104,7 +104,8 @@ class NewsServiceImpl : NewsService {
         period: ClosedRange<LocalDate>,
     ): List<News> {
         val newsList = getNews(count = count)
-
+        print("Main fun")
+        print(newsList)
         return newsList.getMostRatedNewsWithSequence(count, period)
     }
 }
