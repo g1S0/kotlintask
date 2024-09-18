@@ -59,7 +59,11 @@ suspend fun fetchNews(newsService: NewsServiceImpl, count: Int = 2): List<News> 
 }
 
 fun saveNewsToFile(fileSaveService: FileSaveServiceImpl, news: List<News>) {
-    fileSaveService.saveNews(news = news)
+    try {
+        fileSaveService.saveNews(news = news)
+    } catch (_: Exception) {
+        println("Error saving news!")
+    }
 }
 
 suspend fun processTopRatedNews(newsService: NewsServiceImpl) {
