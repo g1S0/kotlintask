@@ -71,12 +71,12 @@ class NewsServiceImplTest {
             }
         }
 
-        val result = newsService.getTopRatedNewsWithLoops(count = 3, period = period)
+        val result = newsService.getTopRatedNewsWithLoops(count = 4, period = period)
 
         val expectedResult = listOf(
-            sampleNewsList[1],
+            sampleNewsList[2],
             sampleNewsList[3],
-            sampleNewsList[2]
+            sampleNewsList[1]
         )
 
         assertEquals(expectedResult, result)
@@ -94,12 +94,12 @@ class NewsServiceImplTest {
             }
         }
 
-        val result = newsService.getTopRatedNewsWithSequence(count = 3, period = period)
+        val result = newsService.getTopRatedNewsWithSequence(count = 4, period = period)
 
         val expectedResult = listOf(
-            sampleNewsList[1],
+            sampleNewsList[2],
             sampleNewsList[3],
-            sampleNewsList[2]
+            sampleNewsList[1]
         )
 
         assertEquals(expectedResult, result)

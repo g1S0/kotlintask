@@ -63,8 +63,8 @@ open class NewsServiceImpl : NewsService {
 
                 publicationDate in period
             }
-            .sortedByDescending { it.rating }
-            .take(count)
+            .sortedBy { it.rating }
+            .takeLast(count)
     }
 
     fun List<News>.getTopRatedNewsWithLoops(count: Int, period: ClosedRange<LocalDate>): List<News> {
@@ -80,14 +80,15 @@ open class NewsServiceImpl : NewsService {
             }
         }
 
-        filteredNews.sortByDescending { it.rating }
+        filteredNews.sortBy { it.rating }
 
-        val result = mutableListOf<News>()
-        for (i in 0 until minOf(count, filteredNews.size)) {
-            result.add(filteredNews[i])
+        if (count >= filteredNews.size) {
+            return filteredNews
         }
 
-        return result
+        val startIndex = filteredNews.size - count
+
+        return filteredNews.subList(startIndex, filteredNews.size)
     }
 
     override suspend fun getTopRatedNewsWithLoops(
