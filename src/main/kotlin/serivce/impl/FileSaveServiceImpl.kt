@@ -18,7 +18,7 @@ class FileSaveServiceImpl : FileSaveService {
         val directory = file.parentFile
         val path = file.path
 
-        if (!directory.exists()) {
+        if (directory == null || !directory.exists()) {
             logger.info("Directory $directory does not exist.")
             throw IOException("Failed to create directory: $directory")
         }
