@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter
 
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.io.IOException
 
 val logger: Logger = LogManager.getLogger("NewsServiceLogger")
 
@@ -66,8 +67,12 @@ suspend fun fetchNews(newsService: NewsServiceImpl, count: Int = 2): List<News> 
 fun saveNewsToFile(fileSaveService: FileSaveServiceImpl, news: List<News>) {
     try {
         fileSaveService.saveNews(news = news)
-    } catch (_: Exception) {
-        logger.info("Error saving news!")
+    } catch (e: IOException) {
+        logger.error(e.message)
+    } catch (e: FileAlreadyExistsException) {
+        logger.error("File already exists: ${e.message}")
+    } catch (e: IOException) {
+        logger.error(e.message)
     }
 }
 
