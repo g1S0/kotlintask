@@ -18,6 +18,10 @@ class FileSaveServiceImpl : FileSaveService {
         val directory = file.parentFile
         val path = file.path
 
+        if (news.isEmpty()) {
+            throw IOException("News are empty")
+        }
+
         if (directory == null || !directory.exists()) {
             logger.info("Directory $directory does not exist.")
             throw IOException("Failed to create directory: $directory")
