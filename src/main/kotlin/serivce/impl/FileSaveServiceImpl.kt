@@ -14,7 +14,8 @@ import kotlin.collections.forEach
 class FileSaveServiceImpl : FileSaveService {
     private val logger: Logger = LogManager.getLogger(NewsServiceImpl::class.java)
 
-    override fun saveNews(file: File, news: Collection<News>) {
+    override fun saveNews(path: String, news: Collection<News>) {
+        var file = File(path)
         val directory = file.parentFile
         val path = file.path
 
