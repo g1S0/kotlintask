@@ -9,6 +9,11 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
+
+val logger: Logger = LogManager.getLogger("NewsServiceLogger")
+
 fun newsPrinter(block: NewsPrinter.() -> Unit): String {
     val printer = NewsPrinter()
     printer.block()
@@ -54,7 +59,7 @@ suspend fun main() {
 }
 
 suspend fun fetchNews(newsService: NewsServiceImpl, count: Int = 2): List<News> {
-    println("Fetching $count news...")
+    logger.info("Fetching $count news...")
     return newsService.getNews(count)
 }
 
@@ -62,25 +67,25 @@ fun saveNewsToFile(fileSaveService: FileSaveServiceImpl, news: List<News>) {
     try {
         fileSaveService.saveNews(news = news)
     } catch (_: Exception) {
-        println("Error saving news!")
+        logger.info("Error saving news!")
     }
 }
 
 suspend fun processTopRatedNews(newsService: NewsServiceImpl) {
     val period = LocalDate.of(2020, 1, 1)..LocalDate.of(2024, 12, 31)
 
-    println("Fetching top-rated news with sequence...")
+    logger.info("Fetching top-rated news with sequence...")
     val topNewsWithSequence = newsService.getTopRatedNewsWithSequence(count = 2, period = period)
 
-    println("Fetching top-rated news with loops...")
+    logger.info("Fetching top-rated news with loops...")
     val topNewsWithLoops = newsService.getTopRatedNewsWithLoops(count = 2, period = period)
 
-    println("Top-rated news with sequence: $topNewsWithSequence")
-    println("Top-rated news with loops: $topNewsWithLoops")
+    logger.info("Top-rated news with sequence: $topNewsWithSequence")
+    logger.info("Top-rated news with loops: $topNewsWithLoops")
 }
 
 fun printFormattedNews(news: List<News>) {
-    println("Generating pretty Markdown format...")
+    logger.info("Generating pretty Markdown format...")
     val formattedNews = generateNewsPrettyMarkdown(news)
-    println(formattedNews)
+    logger.info(formattedNews)
 }
