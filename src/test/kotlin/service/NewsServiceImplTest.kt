@@ -66,7 +66,7 @@ class NewsServiceImplTest {
         val period = LocalDate.of(2023, 1, 2)..LocalDate.of(2023, 1, 4)
 
         val newsService = object : NewsServiceImpl() {
-            override suspend fun getNews(count: Int): List<News> {
+            override suspend fun getNews(count: Int, page: Int): List<News> {
                 return sampleNewsList
             }
         }
@@ -89,7 +89,7 @@ class NewsServiceImplTest {
         val period = LocalDate.of(2023, 1, 2)..LocalDate.of(2023, 1, 4)
 
         val newsService = object : NewsServiceImpl() {
-            override suspend fun getNews(count: Int): List<News> {
+            override suspend fun getNews(count: Int, page: Int): List<News> {
                 return sampleNewsList
             }
         }
