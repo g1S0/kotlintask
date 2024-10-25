@@ -32,7 +32,7 @@ open class NewsServiceImpl : NewsService {
         }
     }
 
-    override suspend fun getNews(count: Int): List<News> {
+    override suspend fun getNews(count: Int, page: Int): List<News> {
         return try {
             val response: HttpResponse = client.get(BASE_URL) {
                 parameter("location", "krd")
@@ -43,10 +43,9 @@ open class NewsServiceImpl : NewsService {
                     "id,title,place,description,site_url,favorites_count,comments_count,publication_date"
                 )
                 parameter("page_size", count)
+                parameter("page", page)
             }
-
             val newsResponse: NewsResponse = response.body()
-            logger.debug("Successfully fetched ${newsResponse.results.size} news items")
             return newsResponse.results
         } catch (e: Exception) {
             logger.error("Error fetching news: ${e.message}", e)
